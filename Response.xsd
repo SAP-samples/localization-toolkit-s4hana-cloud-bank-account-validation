@@ -1,0 +1,18 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="ValResponses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Res" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:element type="xs:string" name="BA"/>
+                        <!-- Bank account number, exactly 16 digits -->
+                        <xs:element type="xs:string" name="TaxNo"/>
+                        <!-- Tax Number, exactly 10 digits. -->
+                        <xs:element type="xs:byte" name="Valid"/>
+                        <!-- 1 = whitelisted, 0 = not whitelisted -->
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

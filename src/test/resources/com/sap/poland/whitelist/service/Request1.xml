@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValRequests> 
+  <Req>             
+      <BA>88103015080000000500754001</BA>
+      <TaxNo>2</TaxNo>           
+  </Req>
+  <Req>
+      <BA>88103015080000000500754001</BA>
+      <TaxNo>1</TaxNo>
+  </Req>
+</ValRequests>
