@@ -36,7 +36,7 @@ The source code contains a project file (.pom) which will be recognized by Eclip
 The deployable artifact of the application should be created in APP_HOME/target with a .war suffix.  
 
 ## Deployment
-Deploy the application (.war) into your organization Space. You can use the Deploy button in your Space in SCP Cockpit or use the [Cloud Foundry Command Line Interface - CLI](https://tools.hana.ondemand.com/#cloud).
+Deploy the application (.war) into your organization Space. You can use the Deploy button in your Space in SCP Cockpit or use the [Cloud Foundry Command Line Interface - CLI](https://tools.hana.ondemand.com/#cloud). A greate tutorial on the CLI can be found [here](https://github.com/SAP-samples/hana-developer-cli-tool-example). 
 The parameters of the application (e.g. Memory assignment) are set during the deployment. The repository contains an example manifest.yml in APP_HOME directory.
 It is possible to use the manifest.yml directly after providing user-specific values. Make sure to save the manifest with unix-style line endings. E.g. replace\ 
 name = _<app_name>_\
@@ -50,8 +50,11 @@ The application has exposed two endpoints, which are expected to be consumed in 
 * APP_ROUTE/download : This endpoint can be called (via HTTP GET) to download the White list data for current date. The White list archive has about 200 MB, the client must set an appropriate timeout value (3 minutes is an absolute minimum) to prevent timeout during downloading. 
 * APP_ROUTE/validate : This endpoint can be called (via HTTP GET) to validate the Tax Number/Bank account pairs. The format of the HTTP is described in the Request.xsd and Response.xsd in the APP_HOME directory. Processing error response (e.g. White list data not avaialble) is described in Error.xsd.        
 
+# How to obtain Support
+If you have issues with this sample, please visit the SAP community page or contact your SAP contact to obtain support. 
+In case you observe any defect in the product usage itself, kindly use the SAP Product support channel and raise an incident adequately for the defects observed. 
+You can also post questions directly to our [Community](https://answers.sap.com/questions/ask.html?primaryTagId=9af4d745-1754-4882-b057-f8f904c0a5f8).
+
 # License
 Copyright © 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE.txt) file.
 
-# Support
-There is no support provided for this application.
