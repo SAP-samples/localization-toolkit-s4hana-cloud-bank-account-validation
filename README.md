@@ -58,4 +58,4 @@ If you have issues with this sample, please visit the SAP community page or cont
 In case you observe any defect in the product usage itself, kindly use the SAP Product support channel and raise an incident adequately for the defects observed. You can also post questions directly to our [Community](https://answers.sap.com/questions/ask.html?primaryTagId=9af4d745-1754-4882-b057-f8f904c0a5f8).
 
 ## License
-Copyright © 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
+Copyright © 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
