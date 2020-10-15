@@ -1,3 +1,5 @@
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/localization-toolkit-s4hana-cloud-bank-account-validation)](https://api.reuse.software/info/github.com/SAP-samples/localization-toolkit-s4hana-cloud-bank-account-validation)
+
 # Poland: Using the White List (Register of Taxpayers)
 This repository contains a sample application for the [Poland: Using the White List](https://blogs.sap.com/2020/04/16/poland-using-the-white-list/) tutorial.
 The White list is an electronic register of registered taxpayers, their tax numbers (NIPs) and bank accounts.  In some Polish business scenarios, a payer can only transfer funds to a white-listed bank account of the payee.  
