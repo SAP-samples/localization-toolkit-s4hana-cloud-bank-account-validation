@@ -40,4 +40,16 @@ public class ValidatorMemTest {
         assertEquals(expResult, result);
     }
     
+    @Test
+    public void getGetHash2(){
+        String taxNumber = "6770066541";
+        String bankAccount = "70175013125650000010122510";
+        String mask = "XX17501312YYYXXXXXXXXXXXXX";
+        String date = "20191213";
+        int hashCycles = 5000;
+        String expResult = "252A2D3166C59ADAD1C461343644B9658C13359EA16A435BCCFB7C43E486BA237FC4BD81AF357602A7CE5860A0457252D92D29D93B690B48DEA459BCB3B3E3AB".toLowerCase();
+        String masked = ValidatorMem.mask(mask, bankAccount);
+        String result = ValidatorMem.getHash(taxNumber, masked, date, hashCycles);
+        assertEquals(expResult, result); 
+    }
 }

@@ -49,11 +49,20 @@ class ValidatorMem implements Validator {
             hashMeter.stop();
             if(maskedAccount != null) {
                 dbMeter.start();
-                hash = getHash(taxNumber, bankAccount, date, hashCycles);
+                hash = getHash(taxNumber, maskedAccount, date, hashCycles);
                 if(isWhitelisted(hash)) {
                     dbMeter.stop();
                     java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, System.currentTimeMillis() + ", found masked, db: " + dbMeter.report());
                     return true; //"Valid masked: " + hash;
+                } else {
+                    String msg = 
+                    " Not found, TaxNo: " + taxNumber + 
+                    ", BA: " + bankAccount + 
+                    ", date: " + date +
+                    ", mask: " + mask +
+                    ", masked: " + maskedAccount +
+                    ", Masked hash: " + hash;
+                    java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, msg);
                 }
                 dbMeter.stop();
             }
@@ -89,8 +98,8 @@ class ValidatorMem implements Validator {
         }
     }
     
-    private static String mask(String mask, String bankAccount) {
-        String maskRegEx = "^" + mask.replaceAll("X", ".").replaceAll("Y", ".") + "\\$";
+    static String mask(String mask, String bankAccount) {
+        String maskRegEx = mask.replaceAll("X", ".").replaceAll("Y", ".");
         
         if(!bankAccount.matches(maskRegEx)) {
             return null;
