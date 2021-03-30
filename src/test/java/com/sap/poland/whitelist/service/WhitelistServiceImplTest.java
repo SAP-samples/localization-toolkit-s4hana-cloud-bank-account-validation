@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
+import org.custommonkey.xmlunit.ElementNameAndTextQualifier;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.easymock.EasyMock;
@@ -68,14 +69,26 @@ public class WhitelistServiceImplTest {
     @Test
     public void testPerformValidation() throws Exception {
         Validator validator = EasyMock.createNiceMock(Validator.class);
-        EasyMock.expect(validator.validate(EasyMock.eq("1"), EasyMock.anyString())).andReturn(Boolean.FALSE);
-        EasyMock.expect(validator.validate(EasyMock.eq("2"), EasyMock.anyString())).andReturn(Boolean.TRUE);
+        EasyMock.expect(validator.validate(EasyMock.eq("1"), EasyMock.anyString())).andReturn(Validator.RESULT_NOT_FOUND);
+        EasyMock.expect(validator.validate(EasyMock.eq("2"), EasyMock.anyString())).andReturn(Validator.RESULT_ACTIVE);
         EasyMock.replay(validator);
         
         InputStream stream = getClass().getResourceAsStream(TEST_FILE_1);
         Document doc = XMLUtils.documentFromStream(stream);
         String requests = XMLUtils.documentToString(doc);
-        WhitelistServiceImpl instance = new WhitelistServiceImpl(new WhitelistProcessor());
+       
+        WhitelistProcessor processor = EasyMock.createNiceMock(WhitelistProcessor.class);
+        Whitelist whiteList = EasyMock.createNiceMock(Whitelist.class);
+        EasyMock.expect(whiteList.getDate()).andReturn("20201010").anyTimes();
+        EasyMock.expect(whiteList.getCheckSum()).andReturn("ABCD").anyTimes();
+        EasyMock.expect(whiteList.getCheckSumMethod()).andReturn("SHA512").anyTimes();
+        whiteList.setCheckSum("abcdef", "SHA512");
+        EasyMock.expect(processor.downloadAndProcess(EasyMock.anyString())).andReturn(whiteList).anyTimes();
+        EasyMock.replay(whiteList, processor);
+        
+        WhitelistServiceImpl instance = new WhitelistServiceImpl(processor);
+        instance.downloadWhitelist();
+        
         String result = instance.performValidation(validator, requests);
         stream = getClass().getResourceAsStream(RESULT_FILE_1);
         Diff diff = XMLUnit.compareXML(XMLUtils.documentFromStream(stream), XMLUtils.createDocumentFromString(result));
@@ -92,15 +105,26 @@ public class WhitelistServiceImplTest {
        Element root = d.createElement("ValResponses");
        d.appendChild(root);
        
-       WhitelistServiceImpl instance = new WhitelistServiceImpl(new WhitelistProcessor());
-       instance.appendResult(root, "88103015080000000500754001", "2", true);
-       instance.appendResult(root, "88103015080000000500754001", "1", false);
+       WhitelistProcessor processor = EasyMock.createNiceMock(WhitelistProcessor.class);
+       Whitelist whiteList = EasyMock.createNiceMock(Whitelist.class);
+       EasyMock.expect(whiteList.getDate()).andReturn("20201010").anyTimes();
+       EasyMock.expect(whiteList.getCheckSum()).andReturn("ABCD").anyTimes();
+       EasyMock.expect(whiteList.getCheckSumMethod()).andReturn("SHA512").anyTimes();
+       whiteList.setCheckSum("abcdef", "SHA512");
+       EasyMock.expect(processor.downloadAndProcess(EasyMock.anyString())).andReturn(whiteList).anyTimes();
+       EasyMock.replay(whiteList, processor);
+       
+       WhitelistServiceImpl instance = new WhitelistServiceImpl(processor);
+       instance.downloadWhitelist();
+       
+       instance.appendResult(root, "88103015080000000500754001", "2", Validator.RESULT_ACTIVE);
+       instance.appendResult(root, "88103015080000000500754001", "1", Validator.RESULT_NOT_FOUND);
        
        InputStream stream = getClass().getResourceAsStream(RESULT_FILE_1);
-       Diff diff = XMLUnit.compareXML(XMLUtils.documentFromStream(stream), d);
-       String act = XMLUtils.documentToString(d);
-       diff.overrideElementQualifier(new ElementNameAndAttributeQualifier());
-       XMLAssert.assertXMLEqual(diff, true);
+       Document expDoc = XMLUtils.documentFromStream(stream);
+       Diff diff = XMLUnit.compareXML(expDoc, d);
+       diff.overrideElementQualifier(new ElementNameAndTextQualifier());
+       XMLAssert.assertXMLEqual(diff.toString(), diff, true);
     }
 
     /**

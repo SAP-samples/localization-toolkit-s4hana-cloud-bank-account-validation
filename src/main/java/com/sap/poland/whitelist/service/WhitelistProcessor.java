@@ -13,7 +13,7 @@ import java.net.URLConnection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.poland.whitelist.controllers.NotFoundException;
 import com.sap.poland.whitelist.controllers.ProcessingFailedException;
-import java.util.logging.Level;
+import java.nio.charset.StandardCharsets;
 import org.jboss.logging.Logger;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +21,10 @@ import org.springframework.stereotype.Component;
 public class WhitelistProcessor {
     private static final String URL_PREFIX = "https://plikplaski.mf.gov.pl/pliki/";
     private final int TIMEOUT_SEC = 10 * 60;  // 10 mins 
-    //private static final String WHITELIST_JSON_FILENAME = "";
     private static final String SEVENZIP_SUFFIX = ".7z";
     private static final String JSON_SUFFIX = ".json";
+    private static final String SHA512_SUFFIX = ".sha512sum";
+    private static final String SHA512 = "SHA512";
     
     /**
      * Download and parse the Whitelist data. 
@@ -34,6 +35,7 @@ public class WhitelistProcessor {
     public Whitelist downloadAndProcess(String keyDate) throws NotFoundException {
         String zipName = keyDate + SEVENZIP_SUFFIX;
         String jsonName = keyDate + JSON_SUFFIX;
+        String sha512File = jsonName + SHA512_SUFFIX;
         
         Logger.getLogger(getClass().getName()).log(Logger.Level.TRACE, "Download for " + keyDate + " started.");
         try {
@@ -55,7 +57,21 @@ public class WhitelistProcessor {
             mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
             Whitelist whitelist = mapper.readValue(rawData, Whitelist.class);
             
-            Logger.getLogger(getClass().getName()).log(Logger.Level.INFO, "Download for " + keyDate + " finished.");
+            byte[] checkSumData = SevenZip.extract(zippedData, sha512File);
+            if ( checkSumData == null ) {
+                throw new IOException("Json file cannot be extracted from the 7zip file.");
+            }
+            
+            String checkSum = new String(checkSumData, StandardCharsets.UTF_8);
+            String[] checkSumComponents = checkSum.split(" ");
+            if(checkSumComponents.length > 0){
+                whitelist.setCheckSum(checkSumComponents[0], SHA512);
+            } else {
+                Logger.getLogger(getClass().getName()).log(Logger.Level.INFO, "Checksum for " + keyDate + " not found.");
+            }
+            
+            Logger.getLogger(getClass().getName()).log(Logger.Level.INFO, "Download of " + keyDate + " finished.");
+         
             return whitelist;
         } catch (IOException ioEx) {
             throw new NotFoundException(ioEx.getMessage());

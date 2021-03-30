@@ -15,6 +15,7 @@ public class SevenZip {
                 sevenZFile.read(content, 0, content.length);
             return content;
             }
+            entry = sevenZFile.getNextEntry();
         }
         return null;
     }

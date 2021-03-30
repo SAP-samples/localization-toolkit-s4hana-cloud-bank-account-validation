@@ -9,13 +9,14 @@ class ValidatorMem implements Validator {
     
     private static final char MASK_PLACEHOLDER_TO_REPLACE = 'Y';
     private final Whitelist _whitelist;
+    
 
     ValidatorMem(Whitelist whitelist) {
         _whitelist = whitelist;
     }
     
     @Override
-    public boolean validate(String taxNumber, String bankAccount) {
+    public int validate(String taxNumber, String bankAccount) {
         String date = _whitelist.header.get(Whitelist.GEN_DATE_NAME);
         Meter hashMeter = new Meter();
         Meter dbMeter = new Meter();
@@ -25,10 +26,11 @@ class ValidatorMem implements Validator {
         
         dbMeter.start();
         hash = getHash(taxNumber, bankAccount, date, hashCycles);
-        if(isWhitelisted(hash)) {
+        int result = isWhitelisted(hash);
+        if(result != RESULT_NOT_FOUND) {
             dbMeter.stop();
             java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, System.currentTimeMillis() + ", found unmasked, db: " + dbMeter.report());
-            return true;//"Valid not masked: " + hash;
+            return result;
         } else {
             String msg = 
                     "TaxNo: " + taxNumber + 
@@ -50,10 +52,11 @@ class ValidatorMem implements Validator {
             if(maskedAccount != null) {
                 dbMeter.start();
                 hash = getHash(taxNumber, maskedAccount, date, hashCycles);
-                if(isWhitelisted(hash)) {
+                result = isWhitelisted(hash);
+                if(result != RESULT_NOT_FOUND ) {
                     dbMeter.stop();
                     java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, System.currentTimeMillis() + ", found masked, db: " + dbMeter.report());
-                    return true; //"Valid masked: " + hash;
+                    return RESULT_VIRTUAL; 
                 } else {
                     String msg = 
                     " Not found, TaxNo: " + taxNumber + 
@@ -69,7 +72,7 @@ class ValidatorMem implements Validator {
         }
         
         java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, System.currentTimeMillis() + ", Not found, db: " + dbMeter.report());
-        return false; //Not Valid;
+        return RESULT_NOT_FOUND; //Not Valid;
     }
     
     static class Meter {
@@ -139,21 +142,26 @@ class ValidatorMem implements Validator {
         String hashed = sha512(notMasked, hashCycles);
         return hashed;
     }
-    private boolean isWhitelisted(String hashed) {
+    private int isWhitelisted(String hashed) {
         try {
             int index = Arrays.binarySearch(_whitelist.activeTaxpayers, hashed);
             if(index >= 0) {
-                return true;
+                return RESULT_ACTIVE;
             }
             String msg = "Index active: " + index;
             java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, msg);
             
             index = Arrays.binarySearch(_whitelist.excemptedTaxpayers, hashed);
-            msg = "Index Ex: " + index;
+            msg = "Index Exempted: " + index;
             java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, msg);
-            return index >= 0;
+            
+            if( index >= 0 ) {
+                return RESULT_EXEMPTED;
+            } else {
+               return RESULT_NOT_FOUND; 
+            }
         } catch (RuntimeException ex) {
-            return false;
+            return RESULT_NOT_FOUND;
         }
     }
     
