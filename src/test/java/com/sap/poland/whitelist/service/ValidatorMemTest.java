@@ -52,4 +52,5 @@ public class ValidatorMemTest {
         String result = ValidatorMem.getHash(taxNumber, masked, date, hashCycles);
         assertEquals(expResult, result); 
     }
+    
 }

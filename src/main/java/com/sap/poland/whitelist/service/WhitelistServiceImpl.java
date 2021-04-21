@@ -14,37 +14,25 @@ import org.w3c.dom.Element;
 @Component
 public class WhitelistServiceImpl implements WhitelistService {
 
-    private static final Character EXCEMPTED_TAXPAYER = 'E';
-    private static final Character ACTIVE_TAXPAYER = 'A';
-    /*
-  private final HeaderRepository _headers;
-  private final ItemRepository _items;
-  private final MaskRepository _masks; 
-  private final EntityManagerFactory _entityManagerFactory;
-     */
     private Whitelist _whitelist;
     private static final String REQUEST_ELEMENT = "Req";
     private static final String RESULT_ELEMENT = "Res";
     private static final String BANK_ACC_ELEMENT = "BA";
     private static final String TAX_NO_ELEMENT = "TaxNo";
     private static final String VALID_ELEMENT = "Valid";
+    private static final String DATE_ELEMENT = "Date";
+    private static final String FILE_CHECKSUM_ELEMENT = "FileChecksum";
+    private static final String FILE_CHECKSUM_TYPE_ATT = "method";
     private static final String REQUESTSET_ELEMENT = "ValRequests";
     private static final String RESULTSET_ELEMENT = "ValResponses";
+    private static final String TYPE_ELEMENT = "Type";
+    private static final String TYPE_ACTIVE = "Active";
+    private static final String TYPE_EXEMPTED = "Exempt";
+    private static final String TYPE_VIRTUAL = "Virtual";
     private static final String RESULT_VALID = "1";
     private static final String RESULT_INVALID = "0";
     private final WhitelistProcessor _whitelistProcessor;
 
-    /*
-  public WhitelistServiceImpl(ItemRepository items, MaskRepository masks, HeaderRepository headers, EntityManagerFactory entityManagerFactory) {
-    
-      _items = items;
-    _masks = masks;
-    _headers = headers;
-    _entityManagerFactory = entityManagerFactory;
-    
-  }
-     */
-    
     @Inject
     public WhitelistServiceImpl(WhitelistProcessor processor) {
         _whitelistProcessor = processor;
@@ -97,7 +85,7 @@ public class WhitelistServiceImpl implements WhitelistService {
             for (Element request : requests) {
                 String bankAccount = XMLUtils.getValueOfFirstChild(request, BANK_ACC_ELEMENT);
                 String taxNo = XMLUtils.getValueOfFirstChild(request, TAX_NO_ELEMENT);
-                boolean isValid = validator.validate(taxNo, bankAccount);
+                int isValid = validator.validate(taxNo, bankAccount);
                 appendResult(resultRoot, bankAccount, taxNo, isValid);
             }
 
@@ -107,12 +95,34 @@ public class WhitelistServiceImpl implements WhitelistService {
         }
     }
 
-    void appendResult(Element responseRoot, String bankAccount, String taxNo, boolean isValid) {
-        String result = isValid ? RESULT_VALID : RESULT_INVALID;
+    void appendResult(Element responseRoot, String bankAccount, String taxNo, int validationResult) {
+        String result = validationResult == Validator.RESULT_NOT_FOUND ? RESULT_INVALID : RESULT_VALID;
         Element response = XMLUtils.createAppendChildElement(responseRoot, RESULT_ELEMENT, null);
         XMLUtils.createAppendChildElement(response, TAX_NO_ELEMENT, taxNo);
         XMLUtils.createAppendChildElement(response, BANK_ACC_ELEMENT, bankAccount);
         XMLUtils.createAppendChildElement(response, VALID_ELEMENT, result);
+        
+        if( result.equals( RESULT_VALID ) ) {
+            XMLUtils.createAppendChildElement(response, DATE_ELEMENT, _whitelist.getDate());
+            Element checkSum = XMLUtils.createAppendChildElement(response, FILE_CHECKSUM_ELEMENT, _whitelist.getCheckSum());
+            checkSum.setAttribute(FILE_CHECKSUM_TYPE_ATT, _whitelist.getCheckSumMethod());
+
+            String type = null;
+            switch(validationResult){
+                case Validator.RESULT_ACTIVE: 
+                    type = TYPE_ACTIVE;
+                    break;
+                case Validator.RESULT_EXEMPTED:     
+                    type = TYPE_EXEMPTED;
+                     break;       
+                case Validator.RESULT_VIRTUAL: 
+                    type = TYPE_VIRTUAL;
+                    break;
+            }
+            if( type != null ) {
+                XMLUtils.createAppendChildElement(response, TYPE_ELEMENT, type);
+            }
+        }
     }
 
     @Override

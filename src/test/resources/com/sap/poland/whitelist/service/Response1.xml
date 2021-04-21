@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValResponses> 
   <Res>             
-      <BA>88103015080000000500754001</BA>
+      <BA>88103015080000000500754001</BA>    
       <TaxNo>2</TaxNo>     
-      <Valid>1</Valid>      
+      <Valid>1</Valid> 
+      <Date>20201010</Date>
+      <FileChecksum method="SHA512">ABCD</FileChecksum>
+      <Type>Active</Type> 
   </Res>
   <Res>
       <BA>88103015080000000500754001</BA>
@@ -11,3 +14,4 @@
       <Valid>0</Valid>      
   </Res>
 </ValResponses>
+
