@@ -25,7 +25,7 @@
         <http.proxyHost></http.proxyHost>
         <http.proxyPort>8080</http.proxyPort>
 		
-        <logback.version>1.1.7</logback.version>
+        <logback.version>1.2.0</logback.version>
         <sap.logging.version>2.1.1</sap.logging.version>
         <ngdbc.version>2.6.6</ngdbc.version>
         <hibernate-core.version>5.4.12.Final</hibernate-core.version>
