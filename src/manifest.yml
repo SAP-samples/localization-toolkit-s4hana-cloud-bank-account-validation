@@ -15,5 +15,6 @@ applications:
 # Check that used memory fits your organization quota  
     JBP_CONFIG_JAVA_OPTS:'[from_environment: false, java_opts:"-Xmx3000k -Xms2000k"]'
     JAVA_OPTS: "-Xmx3000m -Xss2000m"
+# Specify a default route for the application
   routes:
   - route: <route_name>
