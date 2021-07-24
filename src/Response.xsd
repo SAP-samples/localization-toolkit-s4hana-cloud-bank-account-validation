@@ -4,27 +4,29 @@
             <xs:sequence>
                 <xs:element name="Res" maxOccurs="unbounded" minOccurs="0">
                     <xs:complexType>
-                        <!-- Bank account number, exactly 16 digits -->
-                        <xs:element type="xs:string" name="BA"/>
-                        <!-- Tax Number, exactly 10 digits. -->
-                        <xs:element type="xs:string" name="TaxNo"/>
-                        <!-- 1 = whitelisted, 0 = not whitelisted -->
-                        <xs:element type="xs:byte" name="Valid"/>
-                        <!-- Date of the file downloaded from PL tax portal in the yyyyMMdd format -->
-                        <xs:element type="xs:int" name="Date" minOccurs="0"/>
-                        <!-- Check sum of the .json file  -->
-                        <xs:element name="FileChecksum" minOccurs="0">
-                            <xs:complexType>
-                                <xs:simpleContent>
-                                    <xs:extension base="xs:string">
-                                        <!-- Checksum algorithm (e.g. SHA512) -->
-                                        <xs:attribute type="xs:string" name="method" use="optional"/>
-                                    </xs:extension>
-                                </xs:simpleContent>
-                            </xs:complexType>
-                        </xs:element>
-                        <!-- Bank account typeActive/Exempt/Virtual -->
-                        <xs:element type="xs:string" name="Type" minOccurs="0"/>
+                        <xs:sequence>
+                            <!-- Bank account number, exactly 16 digits -->
+                            <xs:element type="xs:string" name="BA"/>
+                            <!-- Tax Number, exactly 10 digits. -->
+                            <xs:element type="xs:string" name="TaxNo"/>
+                            <!-- 1 = whitelisted, 0 = not whitelisted -->
+                            <xs:element type="xs:byte" name="Valid"/>
+                            <!-- Date of the file downloaded from PL tax portal in the yyyyMMdd format -->
+                            <xs:element type="xs:int" name="Date" minOccurs="0"/>
+                            <!-- Check sum of the .json file  -->
+                            <xs:element name="FileChecksum" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <!-- Checksum algorithm (e.g. SHA512) -->
+                                            <xs:attribute type="xs:string" name="method" use="optional"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <!-- Bank account typeActive/Exempt/Virtual -->
+                            <xs:element type="xs:string" name="Type" minOccurs="0"/>
+                        </xs:sequence>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

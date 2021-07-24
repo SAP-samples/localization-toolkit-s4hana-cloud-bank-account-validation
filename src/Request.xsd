@@ -4,10 +4,12 @@
       <xs:sequence>
         <xs:element name="Req" maxOccurs="unbounded" minOccurs="1">
           <xs:complexType>
-            <!-- Bank account number, exactly 16 digits -->
-            <xs:element type="xs:integer" name="BA"/>  
-            <!-- Tax Number, exactly 10 digits. -->
-            <xs:element type="xs:string" name="TaxNo"/> 
+            <xs:sequence>
+              <!-- Bank account number, exactly 16 digits -->
+              <xs:element type="xs:integer" name="BA"/>
+              <!-- Tax Number, exactly 10 digits. -->
+              <xs:element type="xs:string" name="TaxNo"/>
+            </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:sequence>
