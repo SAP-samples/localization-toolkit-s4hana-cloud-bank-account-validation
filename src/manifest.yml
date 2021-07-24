@@ -7,9 +7,9 @@ applications:
   path: target/plwhitelist.war
   buildpack: sap_java_buildpack
   timeout: 500
-  services:
 # If logging is desired, provide name of the logging service 
-# and uncomment the next line   
+# and uncomment the next two lines
+#  services:
 #    - <your_logging_service_instance_name> 
   env:
 # Check that used memory fits your organization quota  
