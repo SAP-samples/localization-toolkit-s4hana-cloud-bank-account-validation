@@ -1,7 +1,7 @@
 applications:
 # provide name of the application
 - name: <app_name>
-# Assigned memory, check that it fits your ogranization qouta
+# Assigned memory, check that it fits your ogranization quota
   memory: 2900M
   instances: 1
   path: target/plwhitelist.war
