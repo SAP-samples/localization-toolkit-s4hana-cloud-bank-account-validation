@@ -48,7 +48,7 @@ Deploy the application (**.war**) into your organization's SAP BTP space.
 * You can either use the SCP Cockpit and the Deploy button in your space, or you can use the [Cloud Foundry Command Line Interface - CLI](https://tools.hana.ondemand.com/#cloud). A useful tutorial on the CLI can be found [here](https://github.com/SAP-samples/hana-developer-cli-tool-example). 
 * The parameters of the application (e.g. memory assignment) are set during the deployment. 
 * The repository contains an example manifest.yml in APP_HOME directory. It is possible to use the manifest.yml directly after providing user-specific values.
-Ensure you save the manifest with unix-style line endings. E.g. replace\name = _<app_name>_ with a value, that is likely to be unique, e.g. name = my_company_com_pl_whitelist
+Ensure you save the manifest with unix-style line endings. E.g. replace\name = _<app_name>_ with a value, that is likely to be unique, e.g. name = my_company_com_pl_whitelist. Likewise for <route_name>.
     
 ## Consumption of the end points
 After the application has been deployed and run, navigate to the application in your space and you will see the application routes in the URL form. This route will be further referred to as **APP_ROUTE**.
