@@ -2,7 +2,7 @@ applications:
 # provide name of the application
 - name: <app_name>
 # Assigned memory, check that it fits your ogranization qouta
-  memory: 2900M
+  memory: 4000M
   instances: 1
   path: target/plwhitelist.war
   buildpack: sap_java_buildpack
@@ -13,5 +13,5 @@ applications:
 #    - <your_logging_service_instance_name> 
   env:
 # Check that used memory fits your organization quota  
-    JBP_CONFIG_JAVA_OPTS:'[from_environment: false, java_opts:"-Xmx3000k -Xms2000k"]'
-    JAVA_OPTS: "-Xmx3000m -Xss2000m"
+    JBP_CONFIG_JAVA_OPTS:'[from_environment: false, java_opts:"-Xmx4000k -Xms3000k"]'
+    JAVA_OPTS: "-Xmx4000m -Xss3000m"

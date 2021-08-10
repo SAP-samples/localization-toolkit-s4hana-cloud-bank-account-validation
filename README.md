@@ -25,7 +25,7 @@ Note that, as part of SAP’s commitment to social justice and equality, SAP is 
 ## Requirements
 * You have administrative access to your SAP system and have implementation experience on this system. Coding experience is also required to build the application.
 * An SAP Business Technology Platform (SAP BTP)  [Global account](https://cloudplatform.sap.com/index.html), and an SAP BTP subaccount in the Cloud Foundry environment.
-* SAP BTP Services with Application Runtime (minimum 3 GB memory), and Application Logging (recommended).
+* SAP BTP Services with Application Runtime (minimum 4 GB memory), and Application Logging (recommended). The recommened memory might change in the future as the published .7zip file will grow. 
 * [Eclipse for JAVA Enterprise developers](https://www.eclipse.org/downloads/packages/) to build a JAVA application on your compute.  Follow the installation guide for possible implementation of additional libraries.
 * Oracle JAVA EE Development Kit (JDK) to compile the Java application. JDK might already be a part of the Eclipse bundle. If Eclipse fails to build the application because JDK is missing, [download](https://www.oracle.com/java/technologies/javaee-8-sdk-downloads.html) and install it on your computer.  
 * Apache Maven to build the Java application. Maven should be a part of the Eclipse bundle. If Eclipse fails to build the application because Maven is missing, [download](https://maven.apache.org/download.cgi) and install it on your computer.
