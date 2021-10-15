@@ -7,7 +7,7 @@ The List of VAT payers is an electronic register of registered taxpayers, their 
 <!-- *This sample code is one part of the tutorial, so please follow the tutorial before attempting to use this code.* -->
 
 ## Description
-This application uses the SAP Business Technology Platform (SAP BTP)[1] <!-- SAP Cloud Platform (SCP) --> and Cloud Platform Integration (CPI) to integrate your SAP S/4HANA system with the List of VAT payers, published daily by the Polish tax authorities. The application can be used to validate business partner tax numbers (NIPs) and bank accounts with the List of VAT payers, and to manage such an extension on the SAP S/4HANA Cloud. This extensibility is a part of [Localization Toolkit for SAP S/4HANA Cloud](https://community.sap.com/topics/localization-toolkit-s4hana-cloud).
+This application uses the SAP Business Technology Platform (SAP BTP) and Cloud Platform Integration (CPI) to integrate your SAP S/4HANA system with the List of VAT payers, published daily by the Polish tax authorities. The application can be used to validate business partner tax numbers (NIPs) and bank accounts with the List of VAT payers, and to manage such an extension on the SAP S/4HANA Cloud. This extensibility is a part of [Localization Toolkit for SAP S/4HANA Cloud](https://community.sap.com/topics/localization-toolkit-s4hana-cloud).
 You can copy or deploy this sample application to your SAP Business Technology Platform space.   
  
 
@@ -30,6 +30,7 @@ Note that, as part of SAP’s commitment to social justice and equality, SAP is 
 * Oracle JAVA EE Development Kit (JDK) to compile the Java application. JDK might already be a part of the Eclipse bundle. If Eclipse fails to build the application because JDK is missing, [download](https://www.oracle.com/java/technologies/javaee-8-sdk-downloads.html) and install it on your computer.  
 * Apache Maven to build the Java application. Maven should be a part of the Eclipse bundle. If Eclipse fails to build the application because Maven is missing, [download](https://maven.apache.org/download.cgi) and install it on your computer.
 * For more comprehensive information about tools or versioning, see the [Tools](https://tools.hana.ondemand.com/#cloud) page.
+* The application is available as a [Free tier](https://developers.sap.com/tutorials/btp-cockpit-setup.html) plan.
 
 ## Download and installation
 * Run Eclipse. You will be prompted for a Workspace directory; this will be a common location for all Java projects.   
@@ -45,7 +46,7 @@ Open the project file and build the application.
 
 ## Deployment
 Deploy the application (**.war**) into your organization's SAP BTP space. 
-* You can either use the SCP Cockpit and the Deploy button in your space, or you can use the [Cloud Foundry Command Line Interface - CLI](https://tools.hana.ondemand.com/#cloud). A useful tutorial on the CLI can be found [here](https://github.com/SAP-samples/hana-developer-cli-tool-example). 
+* You can either use the BTP Cockpit and the Deploy button in your space, or you can use the [Cloud Foundry Command Line Interface - CLI](https://tools.hana.ondemand.com/#cloud). A useful tutorial on the CLI can be found [here](https://github.com/SAP-samples/hana-developer-cli-tool-example). 
 * The parameters of the application (e.g. memory assignment) are set during the deployment. 
 * The repository contains an example manifest.yml in APP_HOME directory. It is possible to use the manifest.yml directly after providing user-specific values.
 Ensure you save the manifest with unix-style line endings. E.g. replace\name = _<app_name>_ with a value, that is likely to be unique, e.g. name = my_company_com_pl_whitelist
@@ -67,5 +68,3 @@ In case you have issues with this sample, you can:
 
 ## License
 Copyright © 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
-
-[1]: SAP decided to replace the previously used term SAP Cloud Platform with Business Technology Platform.
