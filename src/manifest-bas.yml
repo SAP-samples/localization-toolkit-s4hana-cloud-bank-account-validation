@@ -1,10 +1,12 @@
+# Manifest for business application studio
+# Differs in the 'path' variable
 applications:
 # provide name of the application
 - name: <app_name>
 # Assigned memory, check that it fits your ogranization qouta
   memory: 4000M
   instances: 1
-  path: target/plwhitelist.war
+  path: ../target/plwhitelist.war
   buildpack: sap_java_buildpack
   timeout: 500
 #  services:
