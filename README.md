@@ -41,6 +41,9 @@ This endpoint can be called (via HTTP GET) to download the List of VAT payers da
 * **APP_ROUTE/validate**
 This endpoint can be called (via HTTP GET) to validate the tax number/bank account pairs. The format of the HTTP is described in the Request.xsd and Response.xsd in the APP_HOME directory.  Processing error responses are described in the Error.xsd, for example 'List of VAT payers data not available'.
 
+## Testing
+[Here](doc/Testing.md) you can find a description how to test whether the deployed application runs correctly. 
+
 ## How to obtain Support
 In case you have issues with this sample, you can:
 * Check the GitHub repository for the latest changes. Alternatively you can check the SAP Note [3034848](https://launchpad.support.sap.com/#/notes/3034848). All changes of the GitHub repository will be also documented there. 
