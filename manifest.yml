@@ -1,0 +1,17 @@
+applications:
+# provide name of the application
+- name: plwl
+# Assigned memory, check that it fits your ogranization qouta
+  memory: 4000M
+  instances: 1
+  path: target/whitelist-0.0.1-SNAPSHOT.war
+  buildpack: sap_java_buildpack_jakarta
+  timeout: 500
+# If logging is desired, provide name of the logging service 
+# and uncomment the next 2 lines
+#  services:
+#    - <your_logging_service_instance_name> 
+  env:
+# Check that used memory fits your organization quota  
+    JBP_CONFIG_JAVA_OPTS:'[from_environment: false, java_opts:"-Xmx4000k -Xms3000k"]'
+    JAVA_OPTS: "-Xmx4000m -Xss3000m"

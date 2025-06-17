@@ -43,12 +43,6 @@ public class DefaultController {
             return printStackTrace(ex);
         }
     }
-
-    @GetMapping("*")
-    public String getElse(){
-        return "Asterisk";
-    }
-
         
     @GetMapping("/download")
     public String download() {
