@@ -2,16 +2,21 @@ package com.sap.poland.whitelist.service;
 
 import com.sap.poland.whitelist.controllers.BadRequestException;
 import com.sap.poland.whitelist.controllers.NotFoundException;
+import jakarta.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-@Component
+@Service
 public class WhitelistServiceImpl implements WhitelistService {
 
     private Whitelist _whitelist;
@@ -33,7 +38,7 @@ public class WhitelistServiceImpl implements WhitelistService {
     private static final String RESULT_INVALID = "0";
     private final WhitelistProcessor _whitelistProcessor;
 
-    @Inject
+    @Autowired
     public WhitelistServiceImpl(WhitelistProcessor processor) {
         _whitelistProcessor = processor;
     }

@@ -1,9 +1,10 @@
 package com.sap.poland.whitelist.service;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import org.apache.commons.codec.binary.Hex;
 
 class ValidatorMem implements Validator {
     

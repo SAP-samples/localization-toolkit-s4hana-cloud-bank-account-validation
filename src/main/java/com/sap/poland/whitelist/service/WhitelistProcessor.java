@@ -3,6 +3,14 @@ package com.sap.poland.whitelist.service;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sap.poland.whitelist.controllers.NotFoundException;
+import com.sap.poland.whitelist.controllers.ProcessingFailedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,14 +18,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sap.poland.whitelist.controllers.NotFoundException;
-import com.sap.poland.whitelist.controllers.ProcessingFailedException;
 import java.nio.charset.StandardCharsets;
-import org.jboss.logging.Logger;
-import org.springframework.stereotype.Component;
 
-@Component
+@Service
 public class WhitelistProcessor {
     private static final String URL_PREFIX = "https://plikplaski.mf.gov.pl/pliki/";
     private final int TIMEOUT_SEC = 10 * 60;  // 10 mins 
@@ -25,6 +28,7 @@ public class WhitelistProcessor {
     private static final String JSON_SUFFIX = ".json";
     private static final String SHA512_SUFFIX = ".sha512sum";
     private static final String SHA512 = "SHA512";
+    private static final Logger logger = LoggerFactory.getLogger(WhitelistProcessor.class);
     
     /**
      * Download and parse the Whitelist data. 
@@ -36,8 +40,8 @@ public class WhitelistProcessor {
         String zipName = keyDate + SEVENZIP_SUFFIX;
         String jsonName = keyDate + JSON_SUFFIX;
         String sha512File = jsonName + SHA512_SUFFIX;
-        
-        Logger.getLogger(getClass().getName()).log(Logger.Level.TRACE, "Download for " + keyDate + " started.");
+
+        logger.atTrace().log("Download for " + keyDate + " started.");
         try {
             // Download
             byte[] zippedData = download(zipName);
@@ -67,10 +71,10 @@ public class WhitelistProcessor {
             if(checkSumComponents.length > 0){
                 whitelist.setCheckSum(checkSumComponents[0], SHA512);
             } else {
-                Logger.getLogger(getClass().getName()).log(Logger.Level.INFO, "Checksum for " + keyDate + " not found.");
+                logger.atInfo().log("Download for " + keyDate + " started.");
             }
-            
-            Logger.getLogger(getClass().getName()).log(Logger.Level.INFO, "Download of " + keyDate + " finished.");
+
+            logger.atTrace().log("Download for " + keyDate + " finished.");
          
             return whitelist;
         } catch (IOException ioEx) {

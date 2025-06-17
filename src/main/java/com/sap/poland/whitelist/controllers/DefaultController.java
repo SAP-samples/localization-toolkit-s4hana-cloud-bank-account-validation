@@ -1,27 +1,37 @@
 package com.sap.poland.whitelist.controllers;
 
 import com.sap.poland.whitelist.service.WhitelistService;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/")
 @RestController
 @Singleton
+@SpringBootApplication
+@ComponentScan("com.sap.poland")
 public class DefaultController {
     private final WhitelistService _service;
     
-    @Inject
+    @Autowired
     DefaultController(WhitelistService service) {
         _service = service;
+        System.err.println("Controller: " + service.getClass());
     }
-            
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(DefaultController.class, args);
+    }
+
+
     @GetMapping("/validate")
     @ResponseBody 
     public String validate(@RequestBody() String request) throws Exception {
@@ -33,6 +43,12 @@ public class DefaultController {
             return printStackTrace(ex);
         }
     }
+
+    @GetMapping("*")
+    public String getElse(){
+        return "Asterisk";
+    }
+
         
     @GetMapping("/download")
     public String download() {

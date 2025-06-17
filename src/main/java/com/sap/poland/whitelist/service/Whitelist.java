@@ -2,6 +2,7 @@ package com.sap.poland.whitelist.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Map;
 
 public class Whitelist {
