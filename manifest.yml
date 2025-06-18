@@ -1,6 +1,6 @@
 applications:
 # provide name of the application
-- name: plwl
+- name: <app_name>
 # Assigned memory, check that it fits your ogranization qouta
   memory: 4000M
   instances: 1
