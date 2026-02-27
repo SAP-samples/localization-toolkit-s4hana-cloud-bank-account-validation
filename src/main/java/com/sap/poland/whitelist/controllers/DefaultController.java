@@ -32,6 +32,12 @@ public class DefaultController {
     }
 
 
+    @PostMapping("/validate2")
+    @ResponseBody
+    public String validate2(@RequestBody() String request) throws Exception {
+        return validate(request);
+    }
+
     @GetMapping("/validate")
     @ResponseBody 
     public String validate(@RequestBody() String request) throws Exception {
@@ -47,6 +53,11 @@ public class DefaultController {
     @GetMapping("/download")
     public String download() {
         return _service.downloadWhitelist(); 
+    }
+
+    @PostMapping("/download2")
+    public String download2() throws Exception {
+        return download();
     }
     
     private static String printStackTrace(Throwable e) {
